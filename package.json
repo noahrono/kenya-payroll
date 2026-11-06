@@ -31,7 +31,7 @@
     "LICENSE"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
@@ -42,5 +42,14 @@
   "devDependencies": {
     "@types/node": "^24.0.0",
     "typescript": "^5.9.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noahrono/kenya-payroll.git"
+  },
+  "homepage": "https://github.com/noahrono/kenya-payroll#readme",
+  "bugs": {
+    "url": "https://github.com/noahrono/kenya-payroll/issues"
+  },
+  "sideEffects": "false"
 }
