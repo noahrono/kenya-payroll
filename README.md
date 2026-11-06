@@ -8,6 +8,8 @@ Kenyan payroll in one function call: **PAYE, NSSF, SHIF and the Affordable Housi
 npm install kenya-payroll
 ```
 
+Needs Node 20 or later. The package is ESM only, so use `import`; on Node 20.19+ and 22.12+ `require()` works too. The types need TypeScript 5.0 or later.
+
 ```ts
 import { calculatePayroll } from 'kenya-payroll';
 
