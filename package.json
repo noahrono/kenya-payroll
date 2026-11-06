@@ -51,5 +51,5 @@
   "bugs": {
     "url": "https://github.com/noahrono/kenya-payroll/issues"
   },
-  "sideEffects": "false"
+  "sideEffects": false
 }
