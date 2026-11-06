@@ -1,5 +1,7 @@
 # kenya-payroll
 
+[![CI](https://github.com/noahrono/kenya-payroll/actions/workflows/ci.yml/badge.svg)](https://github.com/noahrono/kenya-payroll/actions/workflows/ci.yml)
+
 Kenyan payroll in one function call: **PAYE, NSSF, SHIF and the Affordable Housing Levy**, with dated rate tables so past months recompute exactly. Zero dependencies, fully typed.
 
 ```bash
