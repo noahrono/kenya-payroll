@@ -35,11 +35,34 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Use the built package
+      - name: Check package.json fields
         run: |
-          node --input-type=module -e "
-            import { calculatePayroll } from './dist/index.js';
-            const slip = calculatePayroll({ grossPay: 100000, period: '2026-02' });
-            if (slip.netPay !== 70441.65) throw new Error('unexpected net pay: ' + slip.netPay);
-            console.log('net pay', slip.netPay);
+          node -e "
+            const p = require('./package.json');
+            const se = p.sideEffects;
+            if (!(se === undefined || typeof se === 'boolean' || Array.isArray(se))) {
+              throw new Error('sideEffects must be a boolean or an array of globs, got ' + JSON.stringify(se));
+            }
           "
+      - run: npm pack
+      # Install the tarball npm would publish into an empty project and use it by name,
+      # so a broken "exports", "files" or "types" fails here.
+      - name: Install the packed package and use it
+        run: |
+          mkdir "$RUNNER_TEMP/consumer" && cd "$RUNNER_TEMP/consumer"
+          echo '{ "name": "consumer", "private": true, "type": "module" }' > package.json
+          npm install --no-audit --no-fund "$GITHUB_WORKSPACE"/kenya-payroll-*.tgz typescript@5.9
+          cat > use.mjs <<'EOF'
+          import { calculatePayroll } from 'kenya-payroll';
+          const slip = calculatePayroll({ grossPay: 100000, period: '2026-02' });
+          if (slip.netPay !== 70441.65) throw new Error('unexpected net pay: ' + slip.netPay);
+          console.log('net pay', slip.netPay);
+          EOF
+          node use.mjs
+          cat > use.ts <<'EOF'
+          import { calculatePayroll, type PayrollResult } from 'kenya-payroll';
+          const slip: PayrollResult = calculatePayroll({ grossPay: 100000, period: '2026-02' });
+          export const net: number = slip.netPay;
+          EOF
+          echo '{ "compilerOptions": { "strict": true, "module": "NodeNext", "moduleResolution": "NodeNext", "noEmit": true, "skipLibCheck": false, "types": [] }, "files": ["use.ts"] }' > tsconfig.json
+          npx tsc -p .
