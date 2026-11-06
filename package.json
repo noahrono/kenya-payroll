@@ -1,0 +1,46 @@
+{
+  "name": "kenya-payroll",
+  "version": "0.1.0",
+  "description": "Kenyan payroll calculator: PAYE, NSSF, SHIF and Affordable Housing Levy, with dated rate tables. Zero dependencies.",
+  "keywords": [
+    "kenya",
+    "payroll",
+    "paye",
+    "kra",
+    "nssf",
+    "shif",
+    "sha",
+    "housing-levy",
+    "tax",
+    "net-pay"
+  ],
+  "license": "MIT",
+  "author": "Kipkoech Noah",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0"
+  }
+}
